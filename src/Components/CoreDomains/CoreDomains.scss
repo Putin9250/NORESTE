@@ -1,0 +1,295 @@
+// CoreDomains.scss – with animations
+
+.core-domains {
+  // ----- palette --------------------------------------------------
+  --paper-000: #ffffff;
+  --ink-900: #17140f;
+  --ink-700: #4a4438;
+  --ink-400: #8c8474;
+  --signal-500: #b5622a;
+  --line: rgba(23, 20, 15, 0.08);
+  --line-strong: rgba(23, 20, 15, 0.18);
+
+  // ----- layout ---------------------------------------------------
+  position: relative;
+  background: var(--paper-000);
+  color: var(--ink-900);
+  padding: clamp(3.5rem, 6vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+
+  // Chart‑paper grid – now animated with a subtle drift
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+  background-position: -1px -1px;
+  animation: gridDrift 20s linear infinite;
+
+  &__container {
+    max-width: 80rem;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  // ----- animation container ---------------------------------------
+  &__container--animate {
+    > * {
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .core-domains__header {
+      animation-delay: 0.1s;
+    }
+    .core-domains__grid {
+      animation-delay: 0.2s;
+    }
+  }
+
+  // ----- header ---------------------------------------------------
+  &__header {
+    text-align: center;
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  &__eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-400);
+  }
+
+  &__eyebrow-line {
+    flex: 0 0 2rem;
+    height: 1px;
+    background: var(--line-strong);
+  }
+
+  &__eyebrow-label {
+    white-space: nowrap;
+  }
+
+  &__heading {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 420;
+    font-optical-sizing: auto;
+    font-size: clamp(2rem, 3.6vw, 3.2rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.75rem;
+    color: var(--ink-900);
+  }
+
+  &__heading-accent {
+    color: var(--ink-400);
+  }
+
+  &__subheading {
+    max-width: 42rem;
+    margin: 0 auto;
+    font-size: clamp(1rem, 1.2vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--ink-700);
+    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  // ----- grid -----------------------------------------------------
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+
+    @media (max-width: 1000px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 620px) {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+  }
+}
+
+// ----- domain card ------------------------------------------------
+.domain-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(2px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem 1.5rem;
+  transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  opacity: 0; // initial hidden – animated in
+  animation: cardRise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+  // delay set inline via style prop
+
+  &:hover {
+    border-color: var(--signal-500);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 16px 48px rgba(23, 20, 15, 0.08);
+    background: var(--paper-000);
+
+    .domain-card__number {
+      color: var(--signal-500);
+    }
+    .domain-card__title {
+      color: var(--ink-900);
+    }
+
+    // trigger list item slide‑in on hover
+    .domain-card__item {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  &__number {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink-400);
+    min-width: 2.2rem;
+    transition: color 0.25s ease;
+    line-height: 1.4;
+  }
+
+  &__title {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--ink-700);
+    margin: 0;
+    transition: color 0.25s ease;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  &__item {
+    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--ink-700);
+    padding: 0.35rem 0 0.35rem 1.5rem;
+    position: relative;
+    transition: color 0.2s ease, padding-left 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    transform: translateX(-4px);
+    opacity: 0.7;
+    animation: itemSlideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+    // delay set inline via style prop
+
+    &::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--ink-400);
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    &:hover {
+      color: var(--ink-900);
+      padding-left: 1.75rem;
+      transform: translateX(2px);
+      opacity: 1;
+
+      &::before {
+        color: var(--signal-500);
+        transform: scaleX(1.2);
+      }
+    }
+  }
+}
+
+// ----- keyframes --------------------------------------------------
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardRise {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes itemSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  100% {
+    opacity: 0.7; // keep base opacity, hover makes it 1
+    transform: translateX(-4px);
+  }
+}
+
+@keyframes gridDrift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 2.5rem 2.5rem;
+  }
+}
+
+// ----- reduced motion ---------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+  .core-domains {
+    animation: none;
+    background-position: -1px -1px;
+  }
+
+  .core-domains__container--animate > *,
+  .domain-card,
+  .domain-card__item {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .domain-card,
+  .domain-card * {
+    transition: none !important;
+  }
+}

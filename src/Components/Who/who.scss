@@ -1,0 +1,303 @@
+// who.scss – with animations
+
+.noreste-intro {
+  // ----- palette --------------------------------------------------
+  --paper-000: #ffffff;
+  --ink-900: #17140f;
+  --ink-700: #4a4438;
+  --ink-400: #8c8474;
+  --signal-500: #b5622a;
+  --line: rgba(23, 20, 15, 0.1);
+  --line-strong: rgba(23, 20, 15, 0.22);
+
+  // ----- layout ---------------------------------------------------
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-000);
+  color: var(--ink-900);
+  padding: clamp(2.5rem, 4vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+  font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+
+  &__field {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  &__field-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--line) 20%,
+      var(--line) 80%,
+      transparent 100%
+    );
+    opacity: 0.6;
+  }
+
+  &__container {
+    position: relative;
+    max-width: 74rem;
+    margin: 0 auto;
+  }
+
+  // ----- animation container ---------------------------------------
+  &__container--animate {
+    > * {
+      opacity: 0;
+      animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    // Stagger children
+    .noreste-intro__eyebrow {
+      animation-delay: 0.1s;
+    }
+    .noreste-intro__grid {
+      animation-delay: 0.2s;
+    }
+  }
+
+  // ----- eyebrow --------------------------------------------------
+  &__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--signal-500);
+    margin-bottom: clamp(1.25rem, 2.5vw, 2.25rem);
+  }
+
+  // ----- bearing icon – subtle pulse ------------------------------
+  &__bearing {
+    width: 22px;
+    height: 22px;
+    flex: none;
+    animation: pulseCompass 3s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  &__bearing-ring {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+
+  &__bearing-tick {
+    stroke: var(--ink-400);
+    stroke-width: 1;
+  }
+
+  &__bearing-needle {
+    stroke: var(--signal-500);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    animation: needleSweep 6s ease-in-out infinite;
+    transform-origin: 20px 20px;
+  }
+
+  // ----- grid -----------------------------------------------------
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: start;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  // ----- lead text ------------------------------------------------
+  &__heading {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 420;
+    font-optical-sizing: auto;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.85rem;
+    color: var(--ink-900);
+  }
+
+  &__heading-accent {
+    color: var(--ink-400);
+  }
+
+  &__lede {
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.6;
+    color: var(--ink-900);
+    max-width: 34rem;
+    margin: 0 0 1.25rem;
+  }
+
+  &__thesis {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--ink-400);
+    max-width: 32rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+
+    em {
+      color: var(--ink-900);
+      font-style: normal;
+      font-weight: 500;
+    }
+  }
+
+  // ----- chart / discipline list -----------------------------------
+  &__chart {
+    border-left: 1px solid var(--line);
+    padding-left: clamp(1.25rem, 2.5vw, 2rem);
+
+    @media (max-width: 860px) {
+      border-left: none;
+      border-top: 1px solid var(--line);
+      padding-left: 0;
+      padding-top: 1.5rem;
+    }
+  }
+
+  &__chart-label {
+    display: block;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-400);
+    margin-bottom: 0.85rem;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  // ----- list items – staggered slide-in --------------------------
+  &__item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--line);
+    transition: border-color 0.2s ease;
+
+    // initial state for animation
+    opacity: 0;
+    transform: translateX(-12px);
+    animation: slideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    // delay set inline via style prop
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      border-color: var(--line-strong);
+
+      .noreste-intro__item-bearing {
+        color: var(--signal-500);
+      }
+
+      .noreste-intro__item-rule {
+        background: var(--signal-500);
+        width: 1.1rem;
+      }
+    }
+  }
+
+  &__item-bearing {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-400);
+    min-width: 3ch;
+    transition: color 0.2s ease;
+  }
+
+  &__item-rule {
+    height: 1px;
+    width: 0.65rem;
+    background: var(--line-strong);
+    transition: width 0.2s ease, background 0.2s ease;
+  }
+
+  &__item-label {
+    font-size: 0.95rem;
+    color: var(--ink-900);
+    letter-spacing: 0.01em;
+  }
+
+  // ----- keyframes ------------------------------------------------
+  @keyframes fadeUp {
+    0% {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes pulseCompass {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes needleSweep {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(6deg);
+    }
+  }
+
+  // ----- reduced motion -------------------------------------------
+  @media (prefers-reduced-motion: reduce) {
+    .noreste-intro__container--animate > *,
+    .noreste-intro__item,
+    .noreste-intro__bearing,
+    .noreste-intro__bearing-needle {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .noreste-intro__item {
+      transition: none;
+    }
+  }
+}
