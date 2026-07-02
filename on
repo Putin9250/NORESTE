@@ -1,0 +1,12 @@
+warning: in the working copy of 'vite.config.js', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/vite.config.js b/vite.config.js[m
+[1mindex da893ac..3841303 100644[m
+[1m--- a/vite.config.js[m
+[1m+++ b/vite.config.js[m
+[36m@@ -4,5 +4,5 @@[m [mimport react from '@vitejs/plugin-react'[m
+ // https://vite.dev/config/[m
+ export default defineConfig({[m
+   plugins: [react()],[m
+[31m-  base: "/NOREST/",[m
+[32m+[m[32m  base: "/NORESTE",[m
+ })[m
