@@ -1,0 +1,184 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@200;400;600;800&family=Inter:wght@300;400;600;700&display=swap");
+
+// ─── Shared brand tokens (mirrors .home) ───────────────────
+$primary: #c5a059;
+$navy: #0b1a2f;
+$white: #f4f6f9;
+$panel-light: #e8eaed;
+$border-light: rgba(11, 26, 47, 0.1);
+$border-dark: rgba(255, 255, 255, 0.1);
+
+.our-difference {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 68vh;
+  font-family: "Inter", sans-serif;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  // ─── Left: Message Panel ────────────────────────────────
+  &__message {
+    background: $panel-light;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4.5rem clamp(1.75rem, 5vw, 5rem);
+
+    @media (max-width: 900px) {
+      padding: 3.5rem 1.75rem 2.5rem;
+    }
+  }
+
+  &__eyebrow {
+    display: inline-block;
+    width: fit-content;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: $primary;
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    padding: 0.3rem 1rem;
+    border-radius: 40px;
+    margin-bottom: 1.4rem;
+  }
+
+  &__heading {
+    font-family: "Noto Serif Display", serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 3.4vw, 2.9rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: $navy;
+    margin-bottom: 1.5rem;
+  }
+
+  &__copy {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: rgba(11, 26, 47, 0.72);
+    max-width: 34rem;
+    margin-bottom: 2rem;
+  }
+
+  &__divider {
+    height: 2px;
+    width: 64px;
+    background: $primary;
+  }
+
+  // ─── Right: Roster Panel ────────────────────────────────
+  &__roster {
+    position: relative;
+    background: $navy;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.1rem;
+    padding: 3rem 0;
+    overflow: hidden;
+
+    // Fade the roster edges into the navy so the loop feels seamless.
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 8%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    &::before {
+      left: 0;
+      background: linear-gradient(to right, $navy, transparent);
+    }
+    &::after {
+      right: 0;
+      background: linear-gradient(to left, $navy, transparent);
+    }
+
+    @media (max-width: 900px) {
+      padding: 2.5rem 0 3rem;
+      gap: 0.9rem;
+    }
+  }
+
+  &__roster-row {
+    overflow: hidden;
+    width: 100%;
+
+    &:hover .our-difference__roster-track {
+      animation-play-state: paused;
+    }
+
+    &[data-direction="right"] .our-difference__roster-track {
+      animation-name: roster-scroll-right;
+    }
+  }
+
+  &__roster-track {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    animation-name: roster-scroll-left;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  &__roster-card {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid $border-dark;
+    border-radius: 10px;
+    padding: 1.1rem 1.4rem;
+    transition: border-color 0.25s ease, background 0.25s ease;
+
+    &:hover {
+      border-color: rgba(197, 160, 89, 0.4);
+      background: rgba(197, 160, 89, 0.06);
+    }
+  }
+
+  &__roster-role {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: $primary;
+  }
+
+  &__roster-name {
+    font-family: "Noto Serif Display", serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: $white;
+    line-height: 1.3;
+  }
+}
+
+// ─── Marquee keyframes ──────────────────────────────────────
+@keyframes roster-scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes roster-scroll-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .our-difference__roster-track {
+    animation: none;
+  }
+}

@@ -1,303 +1,248 @@
-// who.scss – with animations
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap");
 
-.noreste-intro {
-  // ----- palette --------------------------------------------------
-  --paper-000: #ffffff;
-  --ink-900: #17140f;
-  --ink-700: #4a4438;
-  --ink-400: #8c8474;
-  --signal-500: #b5622a;
-  --line: rgba(23, 20, 15, 0.1);
-  --line-strong: rgba(23, 20, 15, 0.22);
+$ink: #0d1b2e;
+$cream: #f2efe6;
+$brass: #c5a059;
+$teal: #6b8fa7;
+$navy-light: #1a2a4a;
 
-  // ----- layout ---------------------------------------------------
+.who {
   position: relative;
+  background: #f5f3ee;
+  padding: 5rem 0 6rem;
   overflow: hidden;
-  background: var(--paper-000);
-  color: var(--ink-900);
-  padding: clamp(2.5rem, 4vw, 5rem) clamp(1.5rem, 5vw, 4rem);
-  font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  isolation: isolate;
 
-  &__field {
+  // ─── Canvas ──────────────────────────────────────────
+  &__canvas-layer {
     position: absolute;
     inset: 0;
-    pointer-events: none;
-  }
-
-  &__field-line {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      var(--line) 20%,
-      var(--line) 80%,
-      transparent 100%
-    );
+    z-index: 0;
     opacity: 0.6;
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    mask-image: radial-gradient(ellipse 60% 60% at 50% 45%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 45%, black 30%, transparent 75%);
   }
 
+  // ─── Container ──────────────────────────────────────
   &__container {
     position: relative;
-    max-width: 74rem;
+    z-index: 2;
+    max-width: 1100px;
     margin: 0 auto;
+    padding: 0 6%;
   }
 
-  // ----- animation container ---------------------------------------
-  &__container--animate {
-    > * {
-      opacity: 0;
-      animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    // Stagger children
-    .noreste-intro__eyebrow {
-      animation-delay: 0.1s;
-    }
-    .noreste-intro__grid {
-      animation-delay: 0.2s;
-    }
-  }
-
-  // ----- eyebrow --------------------------------------------------
+  // ─── Eyebrow ────────────────────────────────────────
   &__eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
+    gap: 0.6rem;
+    font-family: "Inter", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    color: var(--signal-500);
-    margin-bottom: clamp(1.25rem, 2.5vw, 2.25rem);
-  }
+    color: $brass;
+    margin-bottom: 1.5rem;
 
-  // ----- bearing icon – subtle pulse ------------------------------
-  &__bearing {
-    width: 22px;
-    height: 22px;
-    flex: none;
-    animation: pulseCompass 3s ease-in-out infinite;
-    transform-origin: center;
-  }
-
-  &__bearing-ring {
-    fill: none;
-    stroke: var(--line-strong);
-    stroke-width: 1;
-  }
-
-  &__bearing-tick {
-    stroke: var(--ink-400);
-    stroke-width: 1;
-  }
-
-  &__bearing-needle {
-    stroke: var(--signal-500);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    animation: needleSweep 6s ease-in-out infinite;
-    transform-origin: 20px 20px;
-  }
-
-  // ----- grid -----------------------------------------------------
-  &__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    gap: clamp(2rem, 4vw, 4rem);
-    align-items: start;
-
-    @media (max-width: 860px) {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+    &::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      background: $brass;
     }
   }
 
-  // ----- lead text ------------------------------------------------
-  &__heading {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 420;
-    font-optical-sizing: auto;
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    line-height: 1.16;
+  // ─── Statement ──────────────────────────────────────
+  &__statement {
+    font-family: "Fraunces", serif;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 3.8vw, 3rem);
+    line-height: 1.3;
+    color: $ink;
     letter-spacing: -0.01em;
-    margin: 0 0 0.85rem;
-    color: var(--ink-900);
-  }
+    margin-bottom: 3rem;
+    max-width: 880px;
 
-  &__heading-accent {
-    color: var(--ink-400);
-  }
-
-  &__lede {
-    font-size: clamp(1rem, 1.4vw, 1.15rem);
-    line-height: 1.6;
-    color: var(--ink-900);
-    max-width: 34rem;
-    margin: 0 0 1.25rem;
-  }
-
-  &__thesis {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: var(--ink-400);
-    max-width: 32rem;
-    padding-top: 0.85rem;
-    border-top: 1px solid var(--line);
-
-    em {
-      color: var(--ink-900);
-      font-style: normal;
+    .who__highlight {
+      color: $brass;
       font-weight: 500;
     }
-  }
 
-  // ----- chart / discipline list -----------------------------------
-  &__chart {
-    border-left: 1px solid var(--line);
-    padding-left: clamp(1.25rem, 2.5vw, 2rem);
-
-    @media (max-width: 860px) {
-      border-left: none;
-      border-top: 1px solid var(--line);
-      padding-left: 0;
-      padding-top: 1.5rem;
+    @media (max-width: 700px) {
+      .who__br { display: none; }
     }
   }
 
-  &__chart-label {
-    display: block;
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
+  // ─── Ticker ─────────────────────────────────────────
+  &__ticker {
+    border-top: 1px solid rgba(13, 27, 46, 0.08);
+    border-bottom: 1px solid rgba(13, 27, 46, 0.08);
+    padding: 0.9rem 0;
+    margin: 0 -6% 3rem;
+    overflow: hidden;
+    white-space: nowrap;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(4px);
+  }
+
+  &__ticker-track {
+    display: inline-flex;
+    animation: who-ticker-scroll 28s linear infinite;
+  }
+
+  &__ticker-item {
+    display: inline-flex;
+    align-items: center;
+    font-family: "Inter", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--ink-400);
-    margin-bottom: 0.85rem;
+    color: $ink;
+    padding: 0 1.8rem;
+    white-space: nowrap;
   }
 
-  &__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  &__ticker-dot {
+    margin-left: 1.8rem;
+    color: $brass;
+    font-size: 0.5rem;
   }
 
-  // ----- list items – staggered slide-in --------------------------
-  &__item {
+  @keyframes who-ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__ticker-track { animation: none; }
+  }
+
+  // ─── Quote ──────────────────────────────────────────
+  &__quote {
+    max-width: 780px;
+    margin: 0 0 3.5rem;
+    padding-left: 1.5rem;
+    border-left: 3px solid $brass;
+
+    &-line {
+      display: none;
+    }
+
+    blockquote {
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+      font-weight: 400;
+      font-style: italic;
+      color: $ink;
+      line-height: 1.6;
+      quotes: none;
+      margin: 0;
+
+      span {
+        color: $brass;
+        font-style: normal;
+        font-weight: 500;
+      }
+    }
+
+    cite {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: rgba(13, 27, 46, 0.3);
+    }
+  }
+
+  // ─── Grid ───────────────────────────────────────────
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  &__grid-item {
     display: flex;
-    align-items: baseline;
-    gap: 0.85rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--line);
-    transition: border-color 0.2s ease;
-
-    // initial state for animation
-    opacity: 0;
-    transform: translateX(-12px);
-    animation: slideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    // delay set inline via style prop
-
-    &:first-child {
-      padding-top: 0;
-    }
-
-    &:last-child {
-      border-bottom: none;
-    }
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    border: 1px solid rgba(13, 27, 46, 0.04);
+    transition: background 0.2s, border-color 0.2s;
 
     &:hover {
-      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.7);
+      border-color: rgba(197, 160, 89, 0.15);
+    }
+  }
 
-      .noreste-intro__item-bearing {
-        color: var(--signal-500);
+  &__grid-number {
+    font-family: "Inter", sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: $brass;
+    letter-spacing: 0.5px;
+    opacity: 0.5;
+    min-width: 28px;
+  }
+
+  &__grid-label {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: $ink;
+  }
+
+  // ─── Responsive ─────────────────────────────────────
+  @media (max-width: 700px) {
+    padding: 3.5rem 0 4.5rem;
+
+    &__canvas-layer {
+      opacity: 0.35;
+    }
+
+    &__ticker-item {
+      font-size: 0.7rem;
+      padding: 0 1.2rem;
+    }
+    &__ticker-dot {
+      margin-left: 1.2rem;
+    }
+
+    &__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    &__grid-item {
+      padding: 0.4rem 0.8rem;
+    }
+    &__grid-label {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+    &__quote {
+      padding-left: 1rem;
+      blockquote {
+        font-size: 1rem;
       }
-
-      .noreste-intro__item-rule {
-        background: var(--signal-500);
-        width: 1.1rem;
-      }
-    }
-  }
-
-  &__item-bearing {
-    font-family: "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.75rem;
-    color: var(--ink-400);
-    min-width: 3ch;
-    transition: color 0.2s ease;
-  }
-
-  &__item-rule {
-    height: 1px;
-    width: 0.65rem;
-    background: var(--line-strong);
-    transition: width 0.2s ease, background 0.2s ease;
-  }
-
-  &__item-label {
-    font-size: 0.95rem;
-    color: var(--ink-900);
-    letter-spacing: 0.01em;
-  }
-
-  // ----- keyframes ------------------------------------------------
-  @keyframes fadeUp {
-    0% {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slideIn {
-    0% {
-      opacity: 0;
-      transform: translateX(-12px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes pulseCompass {
-    0%,
-    100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.08);
-    }
-  }
-
-  @keyframes needleSweep {
-    0%,
-    100% {
-      transform: rotate(0deg);
-    }
-    50% {
-      transform: rotate(6deg);
-    }
-  }
-
-  // ----- reduced motion -------------------------------------------
-  @media (prefers-reduced-motion: reduce) {
-    .noreste-intro__container--animate > *,
-    .noreste-intro__item,
-    .noreste-intro__bearing,
-    .noreste-intro__bearing-needle {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-
-    .noreste-intro__item {
-      transition: none;
     }
   }
 }

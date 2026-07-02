@@ -1,20 +1,21 @@
+// App.js
 import React from "react";
-import Navbar from "./Components/Navbar/Navbar";
-import Home from "./Components/Hero/Home";
-import Who from "./Components/Who/who";
-import CoreDomains from "./Components/CoreDomains/CoreDomains";
-import NorestHome from "./Component/NorestHome";
+import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
+import Home from "./Components/Home/Home";
 
-const App = () => {
+function App() {
   return (
-    <div>
-      {/* <Home />
-      <Navbar />
-      <Who />
-      <CoreDomains /> */}
-      <NorestHome />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        
+        {/* other routes */}
+         <Route path="*" element={<Navigate to="/" replace />} />
+         
+      </Routes>
+      
+    </BrowserRouter>
   );
-};
+}
 
 export default App;

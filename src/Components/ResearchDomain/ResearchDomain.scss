@@ -1,0 +1,533 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+// ─── Tokens ──────────────────────────────────────────────
+$bg: #0a0e14;
+$panel-bg: #10161f;
+$row-bg: #0d1219;
+$text-primary: #f0f0f0;
+$text-muted: rgba(240, 240, 240, 0.5);
+$text-faint: rgba(240, 240, 240, 0.32);
+$accent: #d47b4a;
+$accent-dim: rgba(212, 123, 74, 0.12);
+$accent-glow: rgba(212, 123, 74, 0.15);
+$border: rgba(255, 255, 255, 0.06);
+$border-active: rgba(212, 123, 74, 0.3);
+$shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+$font-display: 'Inter', sans-serif;
+$font-mono: 'IBM Plex Mono', monospace;
+
+.research-domains {
+  background: $bg;
+  padding: 4rem 0 5rem;
+  font-family: $font-display;
+  position: relative;
+  overflow: hidden;
+
+  // ─── Ambient Background Glow ───────────────────────────
+  &::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 60%;
+    height: 80%;
+    background: radial-gradient(ellipse, rgba(212, 123, 74, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+    animation: ambient-glow 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes ambient-glow {
+    0% { opacity: 0.4; transform: translate(0, 0) scale(1); }
+    100% { opacity: 1; transform: translate(-10%, 5%) scale(1.1); }
+  }
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+    position: relative;
+    z-index: 1;
+  }
+
+  // ─── Header ──────────────────────────────────────────────
+  &__header {
+    margin-bottom: 2.25rem;
+  }
+
+  &__eyebrow {
+    display: inline-block;
+    font-family: $font-mono;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: $accent;
+    background: $accent-dim;
+    padding: 0.3rem 0.9rem;
+    border-radius: 2px;
+    margin-bottom: 0.9rem;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(212, 123, 74, 0.1), transparent);
+      transform: translateX(-100%);
+      animation: shimmer 4s ease-in-out infinite;
+    }
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+    color: $text-primary;
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, #f0f0f0 60%, rgba(240, 240, 240, 0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__subtitle {
+    font-size: 0.98rem;
+    font-weight: 300;
+    color: $text-muted;
+    max-width: 34rem;
+    margin: 0;
+  }
+
+  // ─── Panel: Index + Stage ──────────────────────────────
+  &__panel {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    background: $panel-bg;
+    border: 1px solid $border;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: $shadow;
+    position: relative;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+
+    // Panel glow border accent
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 14px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(212, 123, 74, 0.05), transparent 50%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+  }
+
+  // ─── Coverage Index ──────────────────────────────────────
+  &__index {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid $border;
+    background: $row-bg;
+    position: relative;
+
+    @media (max-width: 900px) {
+      flex-direction: row;
+      overflow-x: auto;
+      border-right: none;
+      border-bottom: 1px solid $border;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      &::-webkit-scrollbar { display: none; }
+    }
+  }
+
+  &__index-item {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    text-align: left;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid $border;
+    cursor: pointer;
+    padding: 0.95rem 1.25rem;
+    font-family: $font-display;
+    transition: background 0.3s ease, transform 0.2s ease;
+    overflow: hidden;
+
+    &:last-child { border-bottom: none; }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(212, 123, 74, 0.06), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.02);
+      transform: translateX(4px);
+
+      &::before {
+        opacity: 1;
+      }
+
+      .research-domains__index-code {
+        color: $accent;
+      }
+      .research-domains__index-label {
+        color: $text-primary;
+      }
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    @media (max-width: 900px) {
+      flex-shrink: 0;
+      flex-direction: column;
+      gap: 0.3rem;
+      min-width: 150px;
+      border-bottom: none;
+      border-right: 1px solid $border;
+      padding: 0.9rem 1.1rem;
+      transform: none !important;
+
+      &:hover {
+        transform: none !important;
+      }
+    }
+  }
+
+  &__index-code {
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: $text-faint;
+    transition: color 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  &__index-label {
+    font-size: 0.84rem;
+    font-weight: 400;
+    line-height: 1.35;
+    color: $text-muted;
+    transition: color 0.3s ease;
+  }
+
+  &__index-item.is-active {
+    background: rgba(212, 123, 74, 0.06);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .research-domains__index-code {
+      color: $accent;
+    }
+    .research-domains__index-label {
+      color: $text-primary;
+      font-weight: 500;
+    }
+
+    // Glow ring pulse
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-left: 2px solid $accent;
+      opacity: 0.6;
+      box-shadow: 0 0 30px rgba(212, 123, 74, 0.04);
+      animation: pulse-border 2.5s ease-in-out infinite;
+
+      @media (max-width: 900px) {
+        border-left: none;
+        border-bottom: 2px solid $accent;
+      }
+    }
+  }
+
+  @keyframes pulse-border {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.9; }
+  }
+
+  &__index-progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: $accent;
+    transform-origin: left;
+    box-shadow: 0 0 20px rgba(212, 123, 74, 0.3);
+
+    @media (max-width: 900px) {
+      top: 0;
+      bottom: auto;
+      height: 2px;
+    }
+  }
+
+  // ─── Stage ──────────────────────────────────────────────
+  &__stage {
+    position: relative;
+    overflow: hidden;
+    min-height: 380px;
+    background: $bg;
+
+    @media (max-width: 900px) {
+      min-height: 0;
+    }
+  }
+
+  &__slide {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 380px;
+    will-change: transform, opacity;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+  }
+
+  // ─── Slide Image ────────────────────────────────────────
+  &__slide-image {
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+    background: #1a1f2a;
+    will-change: transform;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      will-change: transform;
+    }
+
+    &-overlay {
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  &__slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(10, 14, 20, 0.15), rgba(10, 14, 20, 0.55));
+  }
+
+  &__slide-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(212, 123, 74, 0.03), transparent 70%);
+    pointer-events: none;
+    animation: glow-pulse 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow-pulse {
+    0% { opacity: 0.2; transform: scale(1); }
+    100% { opacity: 0.6; transform: scale(1.1); }
+  }
+
+  &__slide-code {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    font-family: $font-mono;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    color: rgba(240, 240, 240, 0.75);
+    background: rgba(10, 14, 20, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    backdrop-filter: blur(4px);
+    z-index: 2;
+  }
+
+  // ─── Slide Content ──────────────────────────────────────
+  &__slide-content {
+    padding: 2.4rem 2.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(180deg, $panel-bg, $bg);
+
+    @media (max-width: 900px) {
+      padding: 1.6rem 1.5rem 2rem;
+    }
+  }
+
+  &__slide-title {
+    font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0 0 0.7rem;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    background: linear-gradient(180deg, #f0f0f0 60%, rgba(240, 240, 240, 0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__slide-description {
+    font-size: 0.92rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: $text-muted;
+    margin: 0 0 1.3rem;
+  }
+
+  &__slide-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__slide-tag {
+    font-family: $font-mono;
+    font-size: 0.66rem;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    color: rgba(240, 240, 240, 0.6);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid $border;
+    padding: 0.25rem 0.7rem;
+    border-radius: 3px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+    will-change: transform;
+
+    &:hover {
+      color: $text-primary;
+      border-color: rgba(212, 123, 74, 0.35);
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 4px 12px rgba(212, 123, 74, 0.04);
+    }
+  }
+
+  // ─── Particles ──────────────────────────────────────────
+  &__particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(212, 123, 74, 0.015);
+      pointer-events: none;
+    }
+
+    &::before {
+      width: 200px;
+      height: 200px;
+      top: 10%;
+      right: -5%;
+      animation: float-particle 25s ease-in-out infinite alternate;
+    }
+
+    &::after {
+      width: 150px;
+      height: 150px;
+      bottom: 10%;
+      left: -5%;
+      animation: float-particle 30s ease-in-out infinite alternate-reverse;
+    }
+  }
+
+  @keyframes float-particle {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-20px, -30px) scale(1.2); }
+  }
+}
+
+// ─── Accessibility ─────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  .research-domains * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .research-domains__slide-glow {
+    animation: none !important;
+  }
+  .research-domains::before {
+    animation: none !important;
+  }
+  .research-domains__particles::before,
+  .research-domains__particles::after {
+    animation: none !important;
+  }
+}
+
+.research-domains__index-item:focus-visible,
+.research-domains__slide-tag:focus-visible {
+  outline: 2px solid $accent;
+  outline-offset: 2px;
+}
+
+// ─── Responsive ──────────────────────────────────────────
+@media (max-width: 600px) {
+  .research-domains {
+    padding: 3rem 0 4rem;
+
+    &__slide-content {
+      padding: 1.2rem 1.2rem 1.5rem;
+    }
+    &__slide-title {
+      font-size: 1.05rem;
+    }
+    &__slide-description {
+      font-size: 0.85rem;
+    }
+    &__slide-tag {
+      font-size: 0.6rem;
+      padding: 0.15rem 0.5rem;
+    }
+    &__slide-code {
+      font-size: 0.6rem;
+      padding: 0.15rem 0.5rem;
+      top: 0.8rem;
+      left: 0.8rem;
+    }
+    &__index-item {
+      padding: 0.7rem 0.9rem;
+      min-width: 120px;
+    }
+    &__index-label {
+      font-size: 0.75rem;
+    }
+    &__index-code {
+      font-size: 0.6rem;
+    }
+  }
+}
